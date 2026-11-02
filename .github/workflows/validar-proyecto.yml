@@ -15,7 +15,7 @@ jobs:
         id: validacion
         uses: ./.github/actions/validar-aulareserva
         with:
-          rutas: frontend/index.html frontend/app.js backend/public/index.php
+          rutas: frontend/index.html frontend/app.js backend/public/index.php frontend/no-existe.html
 
       - name: Mostrar resultado
         run: echo "Rutas validadas= ${{ steps.validacion.outputs.total }}"
