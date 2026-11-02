@@ -1,0 +1,47 @@
+name: Calcular doble
+
+description: Recibe un número y devuelve su doble
+
+inputs:
+  numero:
+    description: Número que queremos multiplicar por 2
+    required: true
+  
+  rutas:
+    description: Comprobar las rutas.
+    required: true
+
+outputs:
+  resultado:
+    description: Resultado de multiplicar el número por 2
+    value: ${{ steps.calcular.outputs.resultado }}
+  
+  total:
+    description: Rutas verificadas
+    value: ${{steps.comprobar.outputs.total}}
+
+runs:
+  using: composite
+
+  steps:
+    - id: calcular
+      shell: bash
+      run: |
+        resultado=$((${{ inputs.numero }} * 2))
+        echo "El doble es: $resultado"
+        echo "resultado=$resultado" >> "$GITHUB_OUTPUT"
+
+    - id: comprobar
+      shell: bash
+      run: |
+        total=0
+        for ruta in $RUTAS; do
+          if [ -e "$ruta" ]; then
+            echo "Existe: $ruta"
+            total=$((total + 1))
+          else
+            echo "::error::No existe la ruta: $ruta"
+            exit 1
+          fi
+        done
+        echo "total=$total" >> "$GITHUB_OUTPUT"
