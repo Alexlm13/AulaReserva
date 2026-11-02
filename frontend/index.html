@@ -4,6 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script type="module" src="./app.js"></script>
+    <style>
+        form div { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: .25rem; font-weight: bold; }
+    </style>
     <title>AulaReserva</title>
 </head>
 <body>
@@ -13,6 +17,37 @@
         <div id="aulas-disponibles">
 
         </div>
+    </section>
+    <section>
+        <h2>Reservar un aula</h2>
+
+        <form id="reserva">
+            <div>
+                <label for="aula">Aula</label>
+                <select id="aula" name="aula">
+                    <option value="">-- Selecciona un aula --</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" name="fecha">
+            </div>
+
+            <div>
+                <label for="hora">Hora</label>
+                <input type="time" id="hora" name="hora">
+            </div>
+
+            <div>
+                <label for="responsable">Responsable</label>
+                <input type="text" id="responsable" name="responsable" placeholder="Nombre y apellidos">
+            </div>
+
+            <button type="submit" onclick="reservar()">Solicitar reserva</button>
+        </form>
+
+        <p id="mensaje-reserva"></p>
     </section>
 </body>
 </html>
