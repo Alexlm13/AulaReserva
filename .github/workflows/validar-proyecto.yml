@@ -1,0 +1,21 @@
+name: Probar Action local
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  prueba:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Usar nuestra Action
+        id: validacion
+        uses: ./.github/actions/validar-aulareserva
+        with:
+          rutas: frontend/index.html frontend/app.js backend/public/index.php
+
+      - name: Mostrar resultado
+        run: echo "Rutas validadas= ${{ steps.validacion.outputs.total }}"

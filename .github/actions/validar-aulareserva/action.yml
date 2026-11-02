@@ -1,0 +1,36 @@
+name: Validar rutas
+
+description: Comprueba las rutas indicadas.
+
+inputs:
+  
+  rutas:
+    description: Comprobar las rutas.
+    required: true
+
+outputs:
+  
+  total:
+    description: Rutas verificadas
+    value: ${{steps.comprobar.outputs.total}}
+
+runs:
+  using: composite
+
+  steps:
+    - id: comprobar
+      shell: bash
+      env:
+        RUTAS: ${{ inputs.rutas }}
+      run: |
+        total=0
+        for ruta in $RUTAS; do
+          if [ -e "$ruta" ]; then
+            echo "Existe: $ruta"
+            total=$((total + 1))
+          else
+            echo "::error::No existe la ruta: $ruta"
+            exit 1
+          fi
+        done
+        echo "total=$total" >> "$GITHUB_OUTPUT"
