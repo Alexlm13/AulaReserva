@@ -19,25 +19,49 @@ function muestraAulas(data){
 }
 
 function reservar(){
-    let aula = document.getElementById("aula").value;
-    let fecha = document.getElementById("fecha").value;
-    let hora = document.getElementById("hora").value;
-    let responsable = document.getElementById("responsable").value;
+    let reserva = {
+        aula: document.getElementById("aula").value,
+        fecha: document.getElementById("fecha").value,
+        hora: document.getElementById("hora").value,
+        responsable: document.getElementById("responsable").value
+    };
     let mensaje = document.getElementById("mensaje-reserva");
 
-    if (aula == "") {
+    if (reserva.aula == "") {
         mensaje.innerHTML = "Selecciona un aula";
-    } else if (fecha == "") {
+    } else if (reserva.fecha == "") {
         mensaje.innerHTML = "Indica una fecha";
-    } else if (hora == "") {
+    } else if (reserva.hora == "") {
         mensaje.innerHTML = "Indica una hora";
-    } else if (responsable == "") {
+    } else if (reserva.responsable == "") {
         mensaje.innerHTML = "Escribe el responsable";
     } else {
-        mensaje.innerHTML = "Solicitud de reserva correcta";
+        enviarReserva(reserva);
     }
 }
 
+function enviarReserva(reserva){
+    let mensaje = document.getElementById("mensaje-reserva");
+
+    fetch("http://localhost:8000/reservas.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(reserva)
+    })
+    .then((response) => {
+        if (response.ok) {
+            document.getElementById("aula").value = "";
+            document.getElementById("fecha").value = "";
+            document.getElementById("hora").value = "";
+            document.getElementById("responsable").value = "";
+        }
+        return response.json();
+    })
+    .then((data) => {
+        mensaje.innerHTML = data.mensaje || data.error;
+    });
+}
+
 (function (){
-    getDatos("/backend/public/index.php", muestraAulas);
+    getDatos("http://localhost:8000/index.php", muestraAulas);
 })()
