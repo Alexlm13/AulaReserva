@@ -16,7 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 }
 
 // Leer el JSON que envía el frontend
-$datos = json_decode(file_get_contents('php://input') true);
+$datos = json_decode(file_get_contents('php://input'), true);
 
 // Comprobar que existen los cuatro datos
 if (empty($datos['aula']) || empty($datos['fecha']) ||
